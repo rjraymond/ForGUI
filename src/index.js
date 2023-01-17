@@ -5,7 +5,16 @@ require ("./global.css");
 class Application extends React.Component {
 	render () {
 		return (
-			<h1> I am a wrapper for whatever app goes here </h1>
+			<div>
+				<h1 style = {{textAlign: "center"}} > I am a wrapper for whatever app goes here </h1>
+				<div style = {{margin: "auto", width: "max-content"}}>
+					ToDo:
+					<p> File upload and storage. Session IDs and persistence. </p>
+					<p> Model selector drop-down with instructions </p>
+					<p> Tie to server command-line </p>
+					<p> Handle server output </p>
+				</div>
+			</div>
 		);
 	}
 }
@@ -38,8 +47,7 @@ class BarBottom extends React.Component {
 class BarTop extends React.Component {
 	render () {
 		return (
-			<div style = {{marginLeft: "5%", marginRight: "5%",
-										 display: "flex", justifyContent: "space-between"}}>
+			<div style = {{ margin: "auto", maxWidth: "1000px", display: "flex", justifyContent: "space-between"}}>
 				<a href = ""> About </a>
 				<a href = ""> Option </a>
 				<a href = ""> Another </a>
