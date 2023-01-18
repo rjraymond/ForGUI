@@ -1,28 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { Application } from "./Application.js";
+import { IsFake } from "./IsFake.js";
 require ("./global.css");
-
-class Application extends React.Component {
-	render () {
-		return (
-			<div>
-				<h1 style = {{textAlign: "center"}} > I am a wrapper for whatever app goes here </h1>
-				<div style = {{margin: "auto", width: "max-content"}}>
-					ToDo:
-					<p> File upload and storage. Session IDs and persistence. </p>
-					<p> Model selector drop-down with instructions </p>
-					<p> Tie to server command-line </p>
-					<p> Handle server output </p>
-				</div>
-			</div>
-		);
-	}
-}
 
 class BarBottom extends React.Component {
   render () {
     return (
-      <div style = {{display: "flex", justifyContent: "space-between"}}>
+      <div style = {{marginTop: "auto", display: "flex", justifyContent: "space-between"}}>
 				<div style = {{margin: "auto"}}>
 					<div> <b> Contact </b> </div>
 					<div> {this.props.contact.address_l1} </div>
@@ -47,12 +32,14 @@ class BarBottom extends React.Component {
 class BarTop extends React.Component {
 	render () {
 		return (
-			<div style = {{ margin: "auto", maxWidth: "1000px", display: "flex", justifyContent: "space-between"}}>
-				<a href = ""> About </a>
-				<a href = ""> Option </a>
-				<a href = ""> Another </a>
-				<a href = ""> Something </a>
-				<a href = ""> Something Else </a>
+			<div>
+				<div style = {{ margin: "auto", display: "flex", justifyContent: "space-between"}}>
+					<div style = {{margin: "auto"}} > <a href = ""> About </a> </div>
+					<div style = {{margin: "auto"}} > <a href = ""> Option </a> </div>
+					<div style = {{margin: "auto"}} > <a href = ""> Another </a> </div>
+					<div style = {{margin: "auto"}} > <a href = ""> Something </a> </div>
+					<div style = {{margin: "auto"}} > <a href = ""> Something Else </a> </div>
+				</div>
 			</div>
 		);
 	}
@@ -110,12 +97,14 @@ class Root extends React.Component {
 	}
 	render () {
 		return (
-			<body>
-				<BarTop />
-				<Banner url = {this.url} />
-				<Application />
-				<BarBottom contact = {this.contact}  source = {this.source}/>
-			</body>
+			<div style = {{backgroundColor: "white", height: "100vh"}}>
+				<div style = {{boxShadow: "0px 0px 60px grey", backgroundColor: "white", maxWidth: "1000px", margin: "auto", display: "flex", flexDirection: "column", height: "100%"}}>
+					<BarTop />
+					<Banner url = {this.url} />
+					<Application />
+					<BarBottom contact = {this.contact}  source = {this.source}/>
+				</div>
+			</div>
 		);
 	}
 }

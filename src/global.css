@@ -1,2 +1,11 @@
 a:visited { color: black; }
 a{ text-decoration: none }
+body
+{
+	margin: 0px;
+	padding: 0px;
+}
+html
+{
+	height: 100%;
+}
