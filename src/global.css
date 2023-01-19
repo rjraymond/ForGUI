@@ -1,3 +1,4 @@
+
 a:visited { color: black; }
 a{ text-decoration: none }
 body
@@ -10,3 +11,34 @@ html
 	height: 100%;
 }
 
+.LoadingAnimation
+{
+	--message: "Analyzing";
+}
+
+.LoadingAnimation:after
+{
+	animation-name: ellipsis;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+	content: var(--message);
+}
+
+@keyframes ellipsis
+{
+	0%   { content: var(--message);        }
+	20%  { content: var(--message) ".";    }
+	40%  { content: var(--message) "..";   }
+	60%  { content: var(--message) "...";  }
+	80%  { content: var(--message) "...."; }
+	100% { content: var(--message);        }
+}
+
+@keyframes spinner
+{
+	0%   { content: var(--message) " |"; }
+	25%  { content: var(--message) " /"; }
+	50%  { content: var(--message) " -"; }
+	75%  { content: var(--message) " \\";}
+	100% { content: var(--message) " |"; }
+}

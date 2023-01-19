@@ -19,7 +19,7 @@ export class Application extends React.Component {
 		let promise = new Promise ((resolve) => {
 			setTimeout(() => {
 				resolve (GetPrediction (this.state.model, this.state.sample));
-				}, Math.random() * 2000);
+				}, Math.random() * 1000 + 2000);
 			});
 		let prediction = await promise;
 		this.setState ({prediction: prediction, prediction_in_progress: false});
@@ -48,45 +48,40 @@ export class Application extends React.Component {
 					</div><>
 					<label htmlFor = "SelectModel"> Select Model: </label>
       		<select id = "SelectModel" onChange = {this.ModelChanged}>
-      			{this.state.models.map ((name, index) => (
+      			{this.state.models.sort ().map ((name, index) => (
         			<option value = {name} key = {index}>
           	{name}
         		</option>
       			))}
       		</select></>);
 					<div>
-						<input type = "submit" value = "Submit (What Verb is Appropriate?)" />
+						<input type = "submit" value = "Analyze" />
 					</div>
 				</form>
-				<div>
+				<div style = {{margin: "auto", width: "max-content"}}>
 				{ this.state.sample == null ?
 					<> Please upload a sample </> :
 					<> </> }
-				</div>
-				<div>
 				{ this.state.model == null ?
 					<> Please select a model </> :
 					<> </> }
-				</div>
-				<div>
 				{
 				this.state.prediction_in_progress ?
-					<IdleAnimation /> :
+					<LoadingAnimation /> :
 					(this.state.prediction >= 0 ?
 						<> We estimate a {this.state.prediction}% chance that {this.state.sample.name} is a deepfake. </> :
 						<> </>)
 				}
 				</div>
-				<p> Finally got the async. Moving on to idle animations </p>
       </div>
     );
   }
 }
 
-class IdleAnimation extends React.Component {
+class LoadingAnimation extends React.Component {
 	render () {
 		return (
-			<div className = "IdleAnimation"> Calculating... </div>
+			<span className = "LoadingAnimation"></span>
 		);
 	}
 }
