@@ -1,18 +1,42 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { GetModelList } from "./GetModelList.js";
+import { GetPrediction } from "./GetPrediction.js";
 
 export class Application extends React.Component {
   constructor (props)
 	{
 		super (props);
-		this.state = {show_prediction: true};
+		this.state = {}
+		this.state.models = GetModelList ();
+		this.state.model = this.state.models[0];
+		this.state.sample = null;
+		this.state.prediction_in_progress = false;
+		this.state.prediction = -1;
 	}
-	Submit (event)
+	async AsyncPrediction ()
 	{
-		console.log ("State was " + this.state.show_prediction);
+		let promise = new Promise ((resolve) => {
+			setTimeout(() => {
+				resolve (GetPrediction (this.state.model, this.state.sample));
+				}, Math.random() * 2000);
+			});
+		let prediction = await promise;
+		this.setState ({prediction: prediction, prediction_in_progress: false});
+	}
+	Submit = (event) => 
+	{
 		event.preventDefault ();
-		this.setState ({show_prediction: false});
+		if (!this.state.sample || this.state.prediction_in_progress)
+			return;
+		this.setState ({prediction_in_progress: true});
+		this.AsyncPrediction ();
+	}
+	FileUpload = (event) => {
+		if (event.target.files)
+			this.setState ({sample: event.target.files[0]});
+		/* Handle file-upload logic here. */
+		
 	}
 	render () {
     return (
@@ -20,59 +44,49 @@ export class Application extends React.Component {
 				<form onSubmit = {this.Submit} style = {{margin: "auto", width: "max-content"}}>
 					<div>
 						<label htmlFor = "UploadSample"> Upload Sample: </label>
-						<input type = "file" id = "UploadSample" name = "UploadSample"/>
-					</div>
-					<SelectModel />
+						<input onChange = {this.FileUpload} type = "file" id = "UploadSample" name = "UploadSample"/>
+					</div><>
+					<label htmlFor = "SelectModel"> Select Model: </label>
+      		<select id = "SelectModel" onChange = {this.ModelChanged}>
+      			{this.state.models.map ((name, index) => (
+        			<option value = {name} key = {index}>
+          	{name}
+        		</option>
+      			))}
+      		</select></>);
 					<div>
 						<input type = "submit" value = "Submit (What Verb is Appropriate?)" />
 					</div>
 				</form>
-        <Prediction show = {this.state.show_prediction}/>
-				<div style = {{margin: "auto", width: "max-content"}}>
-          ToDo:
-          <p> Passing state to child (result needs state) </p>
-					<p> Dummy function pretend to call models </p>
-					<p> Tie to python instead of server commandline? </p>
-          <p> Handle server output </p>
-        </div>
+				<div>
+				{ this.state.sample == null ?
+					<> Please upload a sample </> :
+					<> </> }
+				</div>
+				<div>
+				{ this.state.model == null ?
+					<> Please select a model </> :
+					<> </> }
+				</div>
+				<div>
+				{
+				this.state.prediction_in_progress ?
+					<IdleAnimation /> :
+					(this.state.prediction >= 0 ?
+						<> We estimate a {this.state.prediction}% chance that {this.state.sample.name} is a deepfake. </> :
+						<> </>)
+				}
+				</div>
+				<p> Finally got the async. Moving on to idle animations </p>
       </div>
     );
   }
 }
 
-class Prediction extends React.Component {
-	constructor (props)
-	{
-		super (props);
-	}
+class IdleAnimation extends React.Component {
 	render () {
-		if (this.props.show)
-			return (
-				<div>
-      		<p> I am the result, but you shouldnt be able to see me </p>
-      	</div>
+		return (
+			<div className = "IdleAnimation"> Calculating... </div>
 		);
 	}
 }
-
-class SelectModel extends React.Component {
-	constructor (props) {
-		super (props);
-		this.state = {models: GetModelList ()};
-		}
-	/*	I want to be able to update this thing if it ever changes.	*/
-	/*	Where should I get this prop? Maybe it's not important right now.	*/
-	render () {
-		return (<>
-			<label htmlFor = "SelectModel"> Select Model: </label>
-			<select id = "SelectModel">
-			{this.state.models.map ((name, index) => (
-				<option value = {index} key = {index}>
-					{name}
-				</option>
-			))}
-			</select>
-		</>);
-	}
-}
-
