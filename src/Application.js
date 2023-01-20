@@ -17,9 +17,7 @@ export class Application extends React.Component {
 	async AsyncPrediction ()
 	{
 		let promise = new Promise ((resolve) => {
-			setTimeout(() => {
-				resolve (GetPrediction (this.state.model, this.state.sample));
-				}, Math.random() * 1000 + 2000);
+			resolve (GetPrediction ());
 			});
 		let prediction = await promise;
 		this.setState ({prediction: prediction, prediction_in_progress: false});
@@ -30,7 +28,8 @@ export class Application extends React.Component {
 		if (!this.state.sample || this.state.prediction_in_progress)
 			return;
 		this.setState ({prediction_in_progress: true});
-		this.AsyncPrediction ();
+		this.setState ({prediction: GetPrediction("1", "2") })
+		this.setState ({prediction_in_progress: false});
 	}
 	FileUpload = (event) => {
 		if (event.target.files)
@@ -53,7 +52,7 @@ export class Application extends React.Component {
           	{name}
         		</option>
       			))}
-      		</select></>);
+      		</select></>
 					<div>
 						<input type = "submit" value = "Analyze" />
 					</div>

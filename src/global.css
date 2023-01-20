@@ -11,6 +11,24 @@ html
 	height: 100%;
 }
 
+.Button
+{
+	display: flex;
+  justify-content: center;
+  align-items: center;
+	width: 100%;
+	height: 50px;
+
+	&:hover
+	{
+		a
+		{
+			color: red;
+		}
+	}
+}
+
+
 .LoadingAnimation
 {
 	--message: "Analyzing";

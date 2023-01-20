@@ -33,12 +33,12 @@ class BarTop extends React.Component {
 	render () {
 		return (
 			<div>
-				<div style = {{ margin: "auto", display: "flex", justifyContent: "space-between"}}>
-					<div style = {{margin: "auto"}} > <a href = ""> About </a> </div>
-					<div style = {{margin: "auto"}} > <a href = ""> Option </a> </div>
-					<div style = {{margin: "auto"}} > <a href = ""> Another </a> </div>
-					<div style = {{margin: "auto"}} > <a href = ""> Something </a> </div>
-					<div style = {{margin: "auto"}} > <a href = ""> Something Else </a> </div>
+				<div style = {{ margin: "0px", display: "flex", justifyContent: "space-between"}}>
+					<div className = "Button" > <a href = ""> About </a> </div>
+					<div className = "Button" > <a href = ""> Option </a> </div>
+					<div className = "Button" > <a href = ""> Another </a> </div>
+					<div className = "Button" > <a href = ""> Something </a> </div>
+					<div className = "Button" > <a href = ""> Something Else </a> </div>
 				</div>
 			</div>
 		);
@@ -98,11 +98,15 @@ class Root extends React.Component {
 	render () {
 		return (
 			<div style = {{backgroundColor: "white", height: "100vh"}}>
-				<div style = {{boxShadow: "0px 0px 60px grey", backgroundColor: "white", maxWidth: "1000px", margin: "auto", display: "flex", flexDirection: "column", height: "100%"}}>
-					<BarTop />
-					<Banner url = {this.url} />
-					<Application />
-					<BarBottom contact = {this.contact}  source = {this.source}/>
+				<div style = {{boxShadow: "0px 0px 60px grey", backgroundColor: "white",
+											 maxWidth: "1000px", margin: "auto", height: "100%"}}>
+					<div style = {{padding: "20px", display: "flex",
+												 flexDirection: "column", height: "100%"}}>
+						<BarTop />
+						<Banner url = {this.url} />
+						<Application />
+						<BarBottom contact = {this.contact}  source = {this.source}/>
+					</div>
 				</div>
 			</div>
 		);

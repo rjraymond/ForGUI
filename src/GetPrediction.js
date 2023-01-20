@@ -4,5 +4,8 @@ export function GetPrediction (model, sample)
 		return -1;
 	if (sample == null)
 		return -2;
-	return Math.round (Math.random() * 100);
+	var get = new XMLHttpRequest ();
+	get.open ("GET", "http://localhost:8000/GetPrediction.php", false);
+	get.send ();
+	return get.responseText;
 }
