@@ -1,7 +1,17 @@
 <?php
-	header("Access-Control-Allow-Origin: *");
+	header("Access-Control-Allow-Origin: http://localhost:3000");
+
+	$model = $_POST["model"];
+	$sample = $_FILES["sample"]["name"];
+	$DEST = "tmp.file";
+	error_log ("model: $model");
+	error_log ("sample: $sample");
+
+	move_uploaded_file ($_FILES["sample"]["tmp_name"], $DEST);
+
 	$output = null;
 	$retval = null;
-	exec("python GetPrediction.py", $output, $retval);
+	exec("./predict --model $model $DEST", $output, $retval);
 	echo ($retval);
+	exec ("rm $DEST || true", $output, $retval);
 ?>

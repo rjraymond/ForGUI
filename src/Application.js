@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { GetModelList } from "./GetModelList.js";
-import { GetPrediction } from "./GetPrediction.js";
 
 export class Application extends React.Component {
   constructor (props)
@@ -10,32 +9,35 @@ export class Application extends React.Component {
 		this.state = {}
 		this.state.models = GetModelList ();
 		this.state.model = this.state.models[0];
-		this.state.sample = null;
 		this.state.prediction_in_progress = false;
 		this.state.prediction = -1;
 	}
-	async AsyncPrediction ()
-	{
-		let promise = new Promise ((resolve) => {
-			resolve (GetPrediction ());
-			});
-		let prediction = await promise;
-		this.setState ({prediction: prediction, prediction_in_progress: false});
-	}
+	
 	Submit = (event) => 
 	{
-		event.preventDefault ();
-		if (!this.state.sample || this.state.prediction_in_progress)
-			return;
-		this.setState ({prediction_in_progress: true});
-		this.setState ({prediction: GetPrediction("1", "2") })
-		this.setState ({prediction_in_progress: false});
-	}
-	FileUpload = (event) => {
-		if (event.target.files)
-			this.setState ({sample: event.target.files[0]});
-		/* Handle file-upload logic here. */
+		event.preventDefault ();	/*	Must be *first* to prevent automatic refresh	*/
 		
+		var model = document.getElementById ("model").value;
+		var sample = document.getElementById ("sample").files[0];
+		var post = new XMLHttpRequest ();
+    var data = new FormData ();
+
+		if (sample == null) {
+			console.log ("No sample uploaded!");
+			return; }
+		
+		this.setState ({prediction_in_progress: true});	/* Start our spinner */
+		
+		data.append ("sample", sample);
+		data.append ("model", model);
+		post.open ("POST", "http://localhost:8000/GetPrediction.php", true);
+		post.onload = (e) => {
+			console.log (post.responseText);
+			this.setState ({prediction_in_progress: false,
+											prediction: post.responseText});
+		}
+		console.log ("Launching with sample: " + sample.name + " and model: " + model);
+		post.send (data);
 	}
 	render () {
     return (
@@ -43,10 +45,10 @@ export class Application extends React.Component {
 				<form onSubmit = {this.Submit} style = {{margin: "auto", width: "max-content"}}>
 					<div>
 						<label htmlFor = "UploadSample"> Upload Sample: </label>
-						<input onChange = {this.FileUpload} type = "file" id = "UploadSample" name = "UploadSample"/>
+						<input type = "file" id = "sample" name = "sample"/>
 					</div><>
-					<label htmlFor = "SelectModel"> Select Model: </label>
-      		<select id = "SelectModel" onChange = {this.ModelChanged}>
+					<label htmlFor = "model"> Select Model: </label>
+      		<select id = "model">
       			{this.state.models.sort ().map ((name, index) => (
         			<option value = {name} key = {index}>
           	{name}
@@ -58,29 +60,17 @@ export class Application extends React.Component {
 					</div>
 				</form>
 				<div style = {{margin: "auto", width: "max-content"}}>
-				{ this.state.sample == null ?
-					<> Please upload a sample </> :
-					<> </> }
-				{ this.state.model == null ?
-					<> Please select a model </> :
-					<> </> }
 				{
 				this.state.prediction_in_progress ?
-					<LoadingAnimation /> :
-					(this.state.prediction >= 0 ?
-						<> We estimate a {this.state.prediction}% chance that {this.state.sample.name} is a deepfake. </> :
-						<> </>)
+					<span className = "LoadingAnimation"></span> :
+					(this.state.prediction > 100 ?
+						<> Server error. Sorry </> :
+						(this.state.prediction < 0 ?
+						<> </> :
+						<> We estimate a {this.state.prediction}% chance that this is a deepfake. </>))
 				}
 				</div>
       </div>
     );
   }
-}
-
-class LoadingAnimation extends React.Component {
-	render () {
-		return (
-			<span className = "LoadingAnimation"></span>
-		);
-	}
 }
