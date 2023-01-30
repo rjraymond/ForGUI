@@ -10,19 +10,19 @@ class BarBottom extends React.Component {
       <div style = {{marginTop: "auto", display: "flex", justifyContent: "space-between"}}>
 				<div style = {{margin: "auto"}}>
 					<div> <b> Contact </b> </div>
-					<div> {this.props.contact.address_l1} </div>
-					<div> {this.props.contact.address_l2} </div>
-					<div> {this.props.contact.city + ", " +
-								 this.props.contact.state + " " +
-								 this.props.contact.zip_code} </div>
-					<div> {this.props.contact.phone} </div>
+					<div> { this.props.contact.address_l1 } </div>
+					<div> { this.props.contact.address_l2 } </div>
+					<div> { this.props.contact.city  + ", " +
+								  this.props.contact.state + " "  +
+								  this.props.contact.zip_code   } </div>
+					<div> { this.props.contact.phone      } </div>
 				</div>
 					<div style = {{margin: "auto"}}>
 					<div> <b> Source Code </b> </div>
-					<div> {this.props.source.msg_website} </div>
-					<div> {this.props.source.url_website} </div>
-					<div> {this.props.source.msg_utilities} </div>
-					<div> {this.props.source.url_utilities} </div>
+					<div> { this.props.source.msg_website   } </div>
+					<div> { this.props.source.url_website   } </div>
+					<div> { this.props.source.msg_utilities } </div>
+					<div> { this.props.source.url_utilities } </div>
 				</div>
 			</div>
     );
@@ -72,6 +72,9 @@ class Banner extends React.Component {
 class Root extends React.Component {
 	constructor (props) {
 		super (props);
+		this.pages = {
+			application: "./index.js",
+		};
 		this.url = {
 			ou: 		"https://oakland.edu/",
 			secs:		"https://www.oakland.edu/secs/",
