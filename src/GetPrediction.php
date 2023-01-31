@@ -1,5 +1,5 @@
 <?php
-	header("Access-Control-Allow-Origin: http://localhost:3000");
+	header("Access-Control-Allow-Origin: *");
 
 	$model = $_POST["model"];
 	$sample = $_FILES["sample"]["name"];

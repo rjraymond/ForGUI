@@ -30,7 +30,10 @@ export class Application extends React.Component {
 		
 		data.append ("sample", sample);
 		data.append ("model", model);
-		post.open ("POST", "http://localhost:8000/GetPrediction.php", true);
+		post.open ("POST", "http://" +
+												process.env.REACT_APP_URL_PHP +
+												process.env.REACT_APP_PWD.substring (process.env.REACT_APP_PHP.length) +
+											 "/GetPrediction.php", true);
 		post.onload = (e) => {
 			console.log (post.responseText);
 			this.setState ({prediction_in_progress: false,

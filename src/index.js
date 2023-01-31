@@ -17,13 +17,23 @@ class BarBottom extends React.Component {
 								  this.props.contact.zip_code   } </div>
 					<div> { this.props.contact.phone      } </div>
 				</div>
-					<div style = {{margin: "auto"}}>
+				<div style = {{margin: "auto"}}>
 					<div> <b> Source Code </b> </div>
 					<div> { this.props.source.msg_website   } </div>
 					<div> { this.props.source.url_website   } </div>
 					<div> { this.props.source.msg_utilities } </div>
 					<div> { this.props.source.url_utilities } </div>
 				</div>
+				{ process.env.REACT_APP_LOCAL == "true" ?
+				<div style = {{margin: "auto"}}>
+					<div> <b> DEBUG INFO </b> </div>
+					<div> PWD: {process.env.REACT_APP_PWD} </div>
+					<div> PHP: {process.env.REACT_APP_PHP} </div>
+					<div> STA: { process.env.REACT_APP_PWD.indexOf (process.env.REACT_APP_PHP) != 0 ?
+												"PHP directory misconfigured" : "PHP directory properly configured"}
+					</div>
+				</div> : <> </>
+				}
 			</div>
     );
   }
@@ -107,6 +117,9 @@ class Root extends React.Component {
 												 flexDirection: "column", height: "100%"}}>
 						<BarTop />
 						<Banner url = {this.url} />
+						<div>
+							ToDo: Portable php server location
+						</div>
 						<Application />
 						<BarBottom contact = {this.contact}  source = {this.source}/>
 					</div>
