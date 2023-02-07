@@ -13,5 +13,4 @@
 	$retval = null;
 	exec("./predict --model $model $DEST", $output, $retval);
 	echo ($retval);
-	exec ("rm $DEST || true", $output, $retval);
 ?>
