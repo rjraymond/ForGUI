@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+
+import json
+import sys
+import time
+import random
+import os
+
+TMP_MODELS = [ "Res2Net", "ASSERT", "AASIST", "RawNet" ]
+
+ERROR_USAGE = 101
+ERROR_OTHER = 102
+ERROR_FNF = 103
+
+msg_usage_general = "Go fuck yourself"
+msg_usage_listModels = "'--use-models' / '-l' takes no other arguments"
+msg_tooManyArgs = "'--model' / '-m' takes exactly two arguments."
+
+def SendIt (model_name, sample_name):
+	if (not os.path.exists (sample_name)):
+		return (ERROR_FNF)
+	time.sleep (1)
+	return random.randint (0, 125)
+
+if (len (sys.argv) == 1):
+    print (msg_usage_general)
+    exit (ERROR_USAGE)
+
+if (sys.argv[1] == "--list-models" or
+    sys.argv[1] == "-l"):
+    if (len (sys.argv) > 2):
+        print (msg_usage_listModels)
+        exit (ERROR_USAGE)
+    print (json.dumps (TMP_MODELS))
+    exit ()
+
+if (sys.argv[1] == "--model" or
+    sys.argv[1] == "-m"):
+    if (len (sys.argv) != 4):
+        print (msg_tooManyArgs)
+        exit (ERROR_USAGE)
+    exit (SendIt (sys.argv[2], sys.argv[3]));
+
+
