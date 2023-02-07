@@ -113,7 +113,7 @@ class Root extends React.Component {
 			<div style = {{backgroundColor: "white", height: "100vh"}}>
 				<div style = {{boxShadow: "0px 0px 60px grey", backgroundColor: "white",
 											 maxWidth: "1000px", margin: "auto", height: "100%"}}>
-					<div style = {{padding: "20px", display: "flex",
+					<div style = {{display: "flex",
 												 flexDirection: "column", height: "100%"}}>
 						<BarTop />
 						<Banner url = {this.url} />
