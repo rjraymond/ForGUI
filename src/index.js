@@ -117,9 +117,6 @@ class Root extends React.Component {
 												 flexDirection: "column", height: "100%"}}>
 						<BarTop />
 						<Banner url = {this.url} />
-						<div>
-							ToDo: Portable php server location
-						</div>
 						<Application />
 						<BarBottom contact = {this.contact}  source = {this.source}/>
 					</div>
