@@ -12,7 +12,11 @@ ERROR_USAGE = 101
 ERROR_OTHER = 102
 ERROR_FNF = 103
 
-msg_usage_general = "Go fuck yourself"
+msg_usage_general = """predict -- Functional back-end for the SMILES Forensic Examiner
+Usage:   predict -m [model_name] [file] ||
+         predict --list-models
+
+Example: predict -m ASSIST sample.flac"""
 msg_usage_listModels = "'--use-models' / '-l' takes no other arguments"
 msg_tooManyArgs = "'--model' / '-m' takes exactly two arguments."
 
